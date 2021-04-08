@@ -30,7 +30,7 @@ public class fundingService {
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
-	public String readOrders()
+	public String readFunds()
 	 {
 		return ordObj.readFunds(); 
 	 } 
@@ -39,7 +39,7 @@ public class fundingService {
 	@GET
 	@Path("/{funder}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String readOredrsBuyer(@PathParam("funder") String funder)
+	public String readFundsFunder(@PathParam("funder") String funder)
 	 {
 		return ordObj.readFundsFunder(funder); 
 	 }
@@ -49,7 +49,7 @@ public class fundingService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String insertOrder(@FormParam("researchID") String researchID,
+	public String insertFunds(@FormParam("researchID") String researchID,
 	 @FormParam("description") String description,
 	 @FormParam("amount") double amount,@FormParam("funder") String funder)
 	{
@@ -61,7 +61,7 @@ public class fundingService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String updateItem(String itemData)
+	public String updateFundAmount(String itemData)
 	{
 	//Convert the input string to a JSON object
 	 JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
