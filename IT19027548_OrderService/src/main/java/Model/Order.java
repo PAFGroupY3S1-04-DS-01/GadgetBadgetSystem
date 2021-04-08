@@ -65,7 +65,7 @@ public class Order {
 			}
 			// Prepare the html table to be displayed
 			output = "<table border='1'><tr><th>Order ID</th><th>Buyer ID</th>" + "<th>Product ID</th>"
-					+ "<th>Quantity</th>" + "<th>Update</th><th>Remove</th></tr>";
+					+ "<th>Quantity</th>" +"<th>Order Date</th>"+ "<th>Update</th><th>Remove</th></tr>";
 
 			String query = "select * from orders";
 			Statement stmt = con.createStatement();
@@ -77,6 +77,7 @@ public class Order {
 				String buyerID = rs.getString("buyerID");
 				String productID = rs.getString("productID");
 				String qty = Double.toString(rs.getDouble("qty"));
+				String orderDate = rs.getString("orderDate");
 				
 
 				// Add into the html table
@@ -84,6 +85,7 @@ public class Order {
 				output += "<td>" + buyerID + "</td>";
 				output += "<td>" + productID + "</td>";
 				output += "<td>" + qty + "</td>";
+				output += "<td>" + orderDate + "</td>";
 
 				// buttons
 				output += "<td><input name='btnUpdate' type='button' value='Update'class='btn btn-secondary'></td>"
@@ -111,7 +113,7 @@ public class Order {
 			}
 			// Prepare the html table to be displayed
 			output = "<table border='1'><tr><th>Order ID</th><th>Buyer ID</th>" + "<th>Product ID</th>"
-					+ "<th>Quantity</th>" + "<th>Update</th><th>Remove</th></tr>";
+					+ "<th>Quantity</th>" +"<th>Order Date</th>"+ "<th>Update</th><th>Remove</th></tr>";
 
 			String query = "select * from orders where buyerID =?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
@@ -124,6 +126,7 @@ public class Order {
 				String buyerID = rs.getString("buyerID");
 				String productID = rs.getString("productID");
 				String qty = Double.toString(rs.getDouble("qty"));
+				String orderDate = rs.getString("orderDate");
 				
 
 				// Add into the html table
@@ -131,6 +134,7 @@ public class Order {
 				output += "<td>" + buyerID + "</td>";
 				output += "<td>" + productID + "</td>";
 				output += "<td>" + qty + "</td>";
+				output += "<td>" + orderDate + "</td>";
 
 				// buttons
 				output += "<td><input name='btnUpdate' type='button' value='Update'class='btn btn-secondary'></td>"
@@ -199,3 +203,4 @@ public class Order {
 	}
 
 }
+
