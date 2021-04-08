@@ -15,16 +15,15 @@ public class Account {
 		return con; } 
 
 	//insert
-	public String insertUser(String UserID, String Name, String Email,String Password, String Address, int Mobile, String Status, String UserType) {
+	public String insertUser(String Name, String Email,String Password, String Address, int Mobile, String Status, String UserType) {
 		String output = ""; 
 		try{ Connection con = connect();
 			if (con == null) 
 				{return"Error while connecting to the database for inserting."; }
 			// create a prepared statement
-			String query = " insert into items  (`UserID`,`Name`,`Email`,`Password`,'Address','Mobile','Status','UserType')"+ " values (?, ?, ?, ?, ?,?,?,?)";
+			String query = " insert into items  (`Name`,`Email`,`Password`,'Address','Mobile','Status','UserType')"+ " values (?, ?, ?, ?, ?,?,?,?)";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
-			preparedStmt.setString(1, UserID);
 			preparedStmt.setString(2, Name);
 			preparedStmt.setString(3, Email);
 			preparedStmt.setString(4, Password);
@@ -154,7 +153,7 @@ public class Account {
 	}
 	
 	//update user info
-	public String updateUserDetails(String UserID, String Name, String Email, String Address, String Mobile, String UserType) {
+	public String updateUser(String Name, String Email, String Address, String Mobile, String UserType) {
 		String output = "";
 		try {
 			Connection con = connect();
