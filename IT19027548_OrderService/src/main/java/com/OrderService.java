@@ -23,6 +23,8 @@ import Model.Order;
 @Path("/Order")
 public class OrderService {
 	
+// baduma thama
+
 	Order ordObj = new Order();
 
 	@GET
