@@ -153,7 +153,7 @@ public class Order {
 		return output;
 	}
 	
-	public String updateOrderQuantity(String ID, String qty) {
+	public String updateOrderQuantity(String ID, int qty) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -164,7 +164,7 @@ public class Order {
 			String query = "UPDATE orders SET qty=? WHERE orderID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
-			preparedStmt.setString(1, qty);
+			preparedStmt.setInt(1, qty);
 			preparedStmt.setString(2, ID);
 
 			// execute the statement
