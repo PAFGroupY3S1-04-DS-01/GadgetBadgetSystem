@@ -49,7 +49,7 @@ public class Order {
 			con.close();
 			output = "Inserted successfully";
 		} catch (Exception e) {
-			output = "Error while inserting the item.";
+			output = "Error while inserting the Orders.";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -98,7 +98,7 @@ public class Order {
 			// Complete the html table
 			output += "</table>";
 		} catch (Exception e) {
-			output = "Error while reading the items.";
+			output = "Error while reading the orders.";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -147,7 +147,7 @@ public class Order {
 			// Complete the html table
 			output += "</table>";
 		} catch (Exception e) {
-			output = "Error while reading the items.";
+			output = "Error while reading the orders.";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -172,7 +172,7 @@ public class Order {
 			con.close();
 			output = "Updated successfully";
 		} catch (Exception e) {
-			output = "Error while updating the item.";
+			output = "Error while updating the order.";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -196,7 +196,7 @@ public class Order {
 			con.close();
 			output = "Deleted successfully";
 		} catch (Exception e) {
-			output = "Error while deleting the item.";
+			output = "Error while deleting the order.";
 			System.err.println(e.getMessage());
 		}
 		return output;
