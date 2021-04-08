@@ -18,30 +18,30 @@ import org.jsoup.parser.Parser;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import Model.Fund;
 import Model.Order;
 
-@Path("/Order")
-public class OrderService {
+@Path("/Funds")
+public class fundingService {
 	
-//mara wade apita une
 
-	Order ordObj = new Order();
+	Fund ordObj = new Fund();
 
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
-	public String readOrders()
+	public String readFunds()
 	 {
-		return ordObj.readOrders(); 
+		return ordObj.readFunds(); 
 	 } 
 	
 	
 	@GET
-	@Path("/{buyerID}")
+	@Path("/{funder}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String readOredrsBuyer(@PathParam("buyerID") String buyerID)
+	public String readFundsFunder(@PathParam("funder") String funder)
 	 {
-		return ordObj.readOrdersbuyer(buyerID); 
+		return ordObj.readFundsFunder(funder); 
 	 }
 	
 	
@@ -49,11 +49,11 @@ public class OrderService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String insertOrder(@FormParam("buyerID") String buyerID,
-	 @FormParam("productID") String productID,
-	 @FormParam("qty") int qty)
+	public String insertFunds(@FormParam("researchID") String researchID,
+	 @FormParam("description") String description,
+	 @FormParam("amount") double amount,@FormParam("funder") String funder)
 	{
-	 String output = ordObj.insertOrder(buyerID, productID, qty);
+	 String output = ordObj.insertFunds(researchID, description, amount,funder);
 	return output;
 	}
 	
@@ -61,15 +61,15 @@ public class OrderService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String updateItem(String itemData)
+	public String updateFundAmount(String itemData)
 	{
 	//Convert the input string to a JSON object
 	 JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
 	//Read the values from the JSON object
-	 String orderID = itemObject.get("orderID").getAsString();
-	 int qty = Integer.parseInt(itemObject.get("qty").getAsString());
+	 String fundID = itemObject.get("fundID").getAsString();
+	 double amount = Double.parseDouble(itemObject.get("amount").getAsString());
 
-	 String output = ordObj.updateOrderQuantity(orderID, qty);
+	 String output = ordObj.updateFundAmount(fundID, amount);
 	return output;
 	}
 	
@@ -77,14 +77,17 @@ public class OrderService {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String deleteItem(String itemData)
+	public String deleteFunds(String itemData)
 	{
 	//Convert the input string to an XML document
 	 Document doc = Jsoup.parse(itemData, "", Parser.xmlParser());
 
 	//Read the value from the element <itemID>
-	 String orderID = doc.select("orderID").text();
-	 String output = ordObj.deleteOrders(orderID);
+	 String fundID = doc.select("fundID").text();
+	 String output = ordObj.deleteFund(fundID);
 	return output;
+	
+	
 	}
+
 }

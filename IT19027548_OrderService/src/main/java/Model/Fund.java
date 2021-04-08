@@ -6,15 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Order {
-	
-	// model class definition
-	
-	
-	
-	
-	
-	// db method definition
+public class Fund {
 	
 	private Connection connect() {
 		Connection con = null;
@@ -29,7 +21,7 @@ public class Order {
 		return con;
 	}
 	
-	public String insertOrder(String buyerID, String productID, int qty) {
+	public String insertFunds(String researchID, String description, double amount, String funder) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -37,26 +29,27 @@ public class Order {
 				return "Error while connecting to the database for inserting.";
 			}
 			// create a prepared statement
-			String query = " insert into orders(`buyerID`,`productID`,`qty`)"+ "values (?, ?, ?)";
+			String query = " insert into funds(`researchID`,`description`,`amount`,`funder`)"+ "values (?, ?, ?, ?)";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
 			
-			preparedStmt.setString(1, buyerID);
-			preparedStmt.setString(2, productID);
-			preparedStmt.setInt(3, qty);			
+			preparedStmt.setString(1, researchID);
+			preparedStmt.setString(2, description);
+			preparedStmt.setDouble(3, amount);
+			preparedStmt.setString(4, funder);	
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
 			output = "Inserted successfully";
 		} catch (Exception e) {
-			output = "Error while inserting the Orders.";
+			output = "Error while inserting the fund.";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
 	
 	
-	public String readOrders() {
+	public String readFunds() {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -64,47 +57,49 @@ public class Order {
 				return "Error while connecting to the database for reading.";
 			}
 			// Prepare the html table to be displayed
-			output = "<table border='1'><tr><th>Order ID</th><th>Buyer ID</th>" + "<th>Product ID</th>"
-					+ "<th>Quantity</th>" +"<th>Order Date</th>"+ "<th>Update</th><th>Remove</th></tr>";
+			output = "<table border='1'><tr><th>Fund ID</th><th>Research ID</th>" + "<th>Description</th>"
+					+ "<th>Amount</th>" +"<th>Funder</th>" + "<th>Update</th><th>Remove</th></tr>";
 
-			String query = "select * from orders";
+			String query = "select * from funds";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 
 			// iterate through the rows in the result set
 			while (rs.next()) {
-				String orderID = Integer.toString(rs.getInt("orderID"));
-				String buyerID = rs.getString("buyerID");
-				String productID = rs.getString("productID");
-				String qty = Double.toString(rs.getDouble("qty"));
-				String orderDate = rs.getString("orderDate");
+				String fundID = Integer.toString(rs.getInt("fundID"));
+				String researchID = rs.getString("researchID");
+				String description = rs.getString("description");
+				String amount = Double.toString(rs.getDouble("amount"));
+				String funder = rs.getString("funder");
+				
 				
 
 				// Add into the html table
-				output += "<tr><td>" + orderID + "</td>";
-				output += "<td>" + buyerID + "</td>";
-				output += "<td>" + productID + "</td>";
-				output += "<td>" + qty + "</td>";
-				output += "<td>" + orderDate + "</td>";
+				output += "<tr><td>" + fundID + "</td>";
+				output += "<td>" + researchID + "</td>";
+				output += "<td>" + description + "</td>";
+				output += "<td>" + amount + "</td>";
+				output += "<td>" + funder + "</td>";
+
 
 				// buttons
 				output += "<td><input name='btnUpdate' type='button' value='Update'class='btn btn-secondary'></td>"
 						+ "<td><form method='post' action='items.jsp'>"
 						+ "<input name='btnRemove' type='submit' value='Remove'class='btn btn-danger'>"
-						+ "<input name='orderID' type='hidden' value='" + orderID + "'>" + "</form></td></tr>";
+						+ "<input name='orderID' type='hidden' value='" + fundID + "'>" + "</form></td></tr>";
 			}
 			con.close();
 
 			// Complete the html table
 			output += "</table>";
 		} catch (Exception e) {
-			output = "Error while reading the orders.";
+			output = "Error while reading the funds.";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
 	
-	public String readOrdersbuyer(String ID) {
+	public String readFundsFunder(String ID) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -112,48 +107,48 @@ public class Order {
 				return "Error while connecting to the database for reading.";
 			}
 			// Prepare the html table to be displayed
-			output = "<table border='1'><tr><th>Order ID</th><th>Buyer ID</th>" + "<th>Product ID</th>"
-					+ "<th>Quantity</th>" +"<th>Order Date</th>"+ "<th>Update</th><th>Remove</th></tr>";
-
-			String query = "select * from orders where buyerID =?";
+			output = "<table border='1'><tr><th>Fund ID</th><th>Research ID</th>" + "<th>Description</th>"
+					+ "<th>Amount</th>" +"<th>Funder</th>" + "<th>Update</th><th>Remove</th></tr>";
+			
+			String query = "select * from funds where funder =?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			preparedStmt.setString(1, ID);
 			ResultSet rs = preparedStmt.executeQuery();
 
 			// iterate through the rows in the result set
 			while (rs.next()) {
-				String orderID = Integer.toString(rs.getInt("orderID"));
-				String buyerID = rs.getString("buyerID");
-				String productID = rs.getString("productID");
-				String qty = Double.toString(rs.getDouble("qty"));
-				String orderDate = rs.getString("orderDate");
+				String fundID = Integer.toString(rs.getInt("fundID"));
+				String researchID = rs.getString("researchID");
+				String description = rs.getString("description");
+				String amount = Double.toString(rs.getDouble("amount"));
+				String funder = rs.getString("funder");
 				
 
 				// Add into the html table
-				output += "<tr><td>" + orderID + "</td>";
-				output += "<td>" + buyerID + "</td>";
-				output += "<td>" + productID + "</td>";
-				output += "<td>" + qty + "</td>";
-				output += "<td>" + orderDate + "</td>";
+				output += "<tr><td>" + fundID + "</td>";
+				output += "<td>" + researchID + "</td>";
+				output += "<td>" + description + "</td>";
+				output += "<td>" + amount + "</td>";
+				output += "<td>" + funder + "</td>";
 
 				// buttons
 				output += "<td><input name='btnUpdate' type='button' value='Update'class='btn btn-secondary'></td>"
 						+ "<td><form method='post' action='items.jsp'>"
 						+ "<input name='btnRemove' type='submit' value='Remove'class='btn btn-danger'>"
-						+ "<input name='orderID' type='hidden' value='" + orderID + "'>" + "</form></td></tr>";
+						+ "<input name='orderID' type='hidden' value='" + fundID + "'>" + "</form></td></tr>";
 			}
 			con.close();
 
 			// Complete the html table
 			output += "</table>";
 		} catch (Exception e) {
-			output = "Error while reading the orders.";
+			output = "Error while reading the funds.";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
 	
-	public String updateOrderQuantity(String ID, int qty) {
+	public String updateFundAmount(String fundID, double amount) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -161,25 +156,25 @@ public class Order {
 				return "Error while connecting to the database for updating.";
 			}
 			// create a prepared statement
-			String query = "UPDATE orders SET qty=? WHERE orderID=?";
+			String query = "UPDATE funds SET amount=? WHERE fundID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
-			preparedStmt.setInt(1, qty);
-			preparedStmt.setString(2, ID);
+			preparedStmt.setDouble(1, amount);
+			preparedStmt.setString(2, fundID);
 
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
 			output = "Updated successfully";
 		} catch (Exception e) {
-			output = "Error while updating the order.";
+			output = "Error while updating the fund.";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
 	
 	
-	public String deleteOrders(String ID) {
+	public String deleteFund(String ID) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -187,7 +182,7 @@ public class Order {
 				return "Error while connecting to the database for deleting.";
 			}
 			// create a prepared statement
-			String query = "delete from orders where orderID=?";
+			String query = "delete from funds where fundID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
 			preparedStmt.setInt(1, Integer.parseInt(ID));
@@ -196,11 +191,10 @@ public class Order {
 			con.close();
 			output = "Deleted successfully";
 		} catch (Exception e) {
-			output = "Error while deleting the order.";
+			output = "Error while deleting the fund.";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
 
 }
-
