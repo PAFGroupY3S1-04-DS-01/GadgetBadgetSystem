@@ -42,7 +42,7 @@ public class Fund {
 			con.close();
 			output = "Inserted successfully";
 		} catch (Exception e) {
-			output = "Error while inserting the item.";
+			output = "Error while inserting the fund.";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -93,7 +93,7 @@ public class Fund {
 			// Complete the html table
 			output += "</table>";
 		} catch (Exception e) {
-			output = "Error while reading the items.";
+			output = "Error while reading the funds.";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -142,7 +142,7 @@ public class Fund {
 			// Complete the html table
 			output += "</table>";
 		} catch (Exception e) {
-			output = "Error while reading the items.";
+			output = "Error while reading the funds.";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -167,7 +167,7 @@ public class Fund {
 			con.close();
 			output = "Updated successfully";
 		} catch (Exception e) {
-			output = "Error while updating the item.";
+			output = "Error while updating the fund.";
 			System.err.println(e.getMessage());
 		}
 		return output;
@@ -191,7 +191,7 @@ public class Fund {
 			con.close();
 			output = "Deleted successfully";
 		} catch (Exception e) {
-			output = "Error while deleting the item.";
+			output = "Error while deleting the fund.";
 			System.err.println(e.getMessage());
 		}
 		return output;
