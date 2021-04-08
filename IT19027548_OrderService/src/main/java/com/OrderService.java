@@ -67,7 +67,7 @@ public class OrderService {
 	 JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
 	//Read the values from the JSON object
 	 String orderID = itemObject.get("orderID").getAsString();
-	 String qty = itemObject.get("qty").getAsString();
+	 int qty = Integer.parseInt(itemObject.get("qty").getAsString());
 
 	 String output = ordObj.updateOrderQuantity(orderID, qty);
 	return output;
