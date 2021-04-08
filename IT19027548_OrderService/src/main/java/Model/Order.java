@@ -164,8 +164,8 @@ public class Order {
 			String query = "UPDATE orders SET qty=? WHERE orderID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
-			preparedStmt.setString(1, ID);
-			preparedStmt.setString(2, qty);
+			preparedStmt.setString(1, qty);
+			preparedStmt.setString(2, ID);
 
 			// execute the statement
 			preparedStmt.execute();
