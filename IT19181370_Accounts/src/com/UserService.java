@@ -1,6 +1,7 @@
 package com;
 
 import javax.ws.rs.Consumes;
+
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -18,32 +19,28 @@ import org.jsoup.parser.Parser;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import Model.Account;
+import model.User;
 
-
-@Path("/Account")
-
-public class AccountServices {
-
-	Account accObj = new Account();
-
+@Path("/User")
+public class UserService {
+	
+	User userObj = new User();
+	
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
-	public String readUser()
+	public String readUsers()
 	 {
-		return accObj.readUser(); 
+		return userObj.readUser(); 
 	 } 
-	
 	
 	@GET
 	@Path("/{UserType}")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String readUserType(@PathParam("UserType") String UserType)
 	 {
-		return accObj.readUserType(UserType); 
+		return userObj.readUserType(UserType); 
 	 }
-	
 	
 	@POST
 	@Path("/")
@@ -59,7 +56,7 @@ public class AccountServices {
 	 @FormParam("UserType") String UserType)
 
 	{
-	 String output = accObj.insertUser(Name,Email,Password,Address,Mobile,Status,UserType);
+	 String output = userObj.insertUser(UserID,Name,Email,Password,Address,Mobile,Status,UserType);
 	return output;
 	}
 	
@@ -67,18 +64,19 @@ public class AccountServices {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String updateUser(String UserID)
+	public String updateUser(String UserData)
 	{
 	//Convert the input string to a JSON object
-	 JsonObject userObject = new JsonParser().parse(UserID).getAsJsonObject();
+	 JsonObject userObject = new JsonParser().parse(UserData).getAsJsonObject();
 	//Read the values from the JSON object
+	 String userID = userObject.get("UserID").getAsString();
 	 String Name = userObject.get("Name").getAsString();
 	 String Email = userObject.get("Email").getAsString();
 	 String Address = userObject.get("Address").getAsString();
-	 String Mobile = userObject.get("Mobile").getAsString();
+	 int Mobile = Integer.parseInt(userObject.get("Mobile").getAsString());
 	 String UserType = userObject.get("UserType").getAsString();
 
-	 String output = accObj.updateUser(Name,Email,Address,Mobile,UserType);
+	 String output = userObj.updateUser(userID,Name,Email,Address,Mobile,UserType);
 	return output;
 	}
 	
@@ -93,8 +91,9 @@ public class AccountServices {
 
 	//Read the value from the element <itemID>
 	 String UserId = doc.select("UserID").text();
-	 String output = accObj.deleteUser(UserId);
+	 String output = userObj.deleteUser(UserId);
 	return output;
 	}
 	
+
 }
