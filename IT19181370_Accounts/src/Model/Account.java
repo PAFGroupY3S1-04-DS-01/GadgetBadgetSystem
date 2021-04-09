@@ -21,9 +21,10 @@ public class Account {
 			if (con == null) 
 				{return"Error while connecting to the database for inserting."; }
 			// create a prepared statement
-			String query = " insert into items  (`Name`,`Email`,`Password`,'Address','Mobile','Status','UserType')"+ " values (?, ?, ?, ?, ?,?,?,?)";
+			String query = " insert into user  (`UserID`,`Name`,`Email`,`Password`,'Address','Mobile','Status','UserType')"+ " values (?, ?, ?, ?, ?,?,?,?)";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
+			preparedStmt.setString(1, null);
 			preparedStmt.setString(2, Name);
 			preparedStmt.setString(3, Email);
 			preparedStmt.setString(4, Password);
@@ -53,7 +54,7 @@ public class Account {
 			output = "<table border='1'><tr><th>Order ID</th><th>Buyer ID</th>" + "<th>Product ID</th>"
 					+ "<th>Quantity</th>" + "<th>Update</th><th>Remove</th></tr>";
 
-			String query = "select * from account.user";
+			String query = "select * from user";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 
@@ -108,7 +109,7 @@ public class Account {
 			output = "<table border='1'><tr><th>Order ID</th><th>Buyer ID</th>" + "<th>Product ID</th>"
 					+ "<th>Quantity</th>" + "<th>Update</th><th>Remove</th></tr>";
 
-			String query = "select * from account.user where UserType =?";
+			String query = "select * from user where UserType =?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			preparedStmt.setString(8, UserType);
 			ResultSet rs = preparedStmt.executeQuery();
@@ -161,7 +162,7 @@ public class Account {
 				return "Error while connecting to the database for updating.";
 			}
 			// create a prepared statement
-			String query = "UPDATE account.user SET Name=?, Email=?,Address=?,Mobile = ?, UserType = ? WHERE UserID=?";
+			String query = "UPDATE user SET Name=?, Email=?,Address=?,Mobile = ?, UserType = ? WHERE UserID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
 			preparedStmt.setString(2, Name);
@@ -190,7 +191,7 @@ public class Account {
 				return "Error while connecting to the database for deleting.";
 			}
 			// create a prepared statement
-			String query = "delete from account.user where UserID=?";
+			String query = "delete from user where UserID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
 			preparedStmt.setString(1, UserID);
