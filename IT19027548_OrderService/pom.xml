@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>IT19027548_OrderService</groupId>
-  <artifactId>IT19027548_OrderService</artifactId>
+  <groupId>Editing</groupId>
+  <artifactId>Editing</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
   <build>
@@ -20,7 +20,7 @@
       </plugin>
     </plugins>
   </build>
-  	<dependencies>
+    	<dependencies>
 
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
