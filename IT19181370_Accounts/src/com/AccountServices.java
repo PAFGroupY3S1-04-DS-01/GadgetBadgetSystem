@@ -30,7 +30,7 @@ public class AccountServices {
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
-	public String readUsers()
+	public String readUser()
 	 {
 		return accObj.readUser(); 
 	 } 
