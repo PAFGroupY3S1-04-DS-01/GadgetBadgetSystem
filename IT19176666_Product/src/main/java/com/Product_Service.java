@@ -40,5 +40,14 @@ public class Product_Service {
 	 String output = objProduct.insertProduct(productID, productName, category, description,unitPrice, rID);
 	return output;
 	}
+	
+
+	@GET
+	@Path("/")
+	@Produces(MediaType.TEXT_HTML)
+	public String readOrders()
+	 {
+		return objProduct.readProduct(); 
+	 } 
 }
 
