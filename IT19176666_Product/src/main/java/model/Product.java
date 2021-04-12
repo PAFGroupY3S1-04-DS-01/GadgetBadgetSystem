@@ -1,4 +1,4 @@
-package model;
+package Model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,14 +16,14 @@ public class Product {
 				Class.forName("com.mysql.jdbc.Driver");
 
 				// Provide the correct details: DBServer/DBName, username, password
-				con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gadjetbadjetSys", "root", "300495Ps@");
+				con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gadgetbadgetsys", "root", "300495Ps@");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			return con;
 		}
 		
-		public String insertOrder(String productID, String productName, String category, String description, Float unitPrice, String rID) {
+		public String insertProduct(String productID, String productName, String category, String description, Float unitPrice, String rID) {
 			String output = "";
 			try {
 				Connection con = connect();
@@ -52,5 +52,7 @@ public class Product {
 			}
 			return output;
 		}
+
+	
 		
 }
