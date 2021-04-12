@@ -56,6 +56,57 @@ public class Research {
 		return output;
 	}
 	
+	public String readResearch() {
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error while connecting to the database for reading.";
+			}
+			// Prepare the html table to be displayed
+			output = "<table border='1'><tr><th>Research ID</th>" + "<th>Field</th>" 
+					+ "<th>Subject</th>" + "<th>Fund Total</th>" + "<th>Published Date</th>" + "<th>Complete Status</th></tr>";
+
+			String query = "select * from research";
+			Statement stmt = con.createStatement();
+			ResultSet rs = stmt.executeQuery(query);
+
+			// iterate through the rows in the result set
+			while (rs.next()) {
+				String rID = rs.getString("rID");
+				String field = rs.getString("field");
+				String subject = rs.getString("subject");
+				String fundTotal = Float.toString(rs.getFloat("fundTotal"));
+				String publishedDate = rs.getString("publishedDate");
+				String cmpl_stats = rs.getString("cmpl_stats");
+				
+
+				// Add into the html table
+				output += "<tr><td>" + rID + "</td>";
+				output += "<td>" + field + "</td>";
+				output += "<td>" + subject + "</td>";
+				output += "<td>" + fundTotal + "</td>";
+				output += "<td>" + publishedDate + "</td>";
+				output += "<td>" + cmpl_stats + "</td>";
+
+
+				// buttons
+				/*output += "<td><input name='btnUpdate' type='button' value='Update'class='btn btn-secondary'></td>"
+						+ "<td><form method='post' action='items.jsp'>"
+						+ "<input name='btnRemove' type='submit' value='Remove'class='btn btn-danger'>"
+						+ "<input name='itemID' type='hidden' value='" + payID + "'>" + "</form></td></tr>";*/
+			}
+			con.close();
+
+			// Complete the html table
+			output += "</table>";
+		} catch (Exception e) {
+			output = "Error while reading the research.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+
 	
 	
 	
