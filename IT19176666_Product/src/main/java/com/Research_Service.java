@@ -39,4 +39,17 @@ public class Research_Service {
 	return output;
 	}
 	
+	
+	@GET
+	@Path("/")
+	@Produces(MediaType.TEXT_HTML)
+	public String readOrders()
+	 {
+		return objResearch.readResearch(); 
+	 } 
+	
+	
+	
+	
+	
 }
