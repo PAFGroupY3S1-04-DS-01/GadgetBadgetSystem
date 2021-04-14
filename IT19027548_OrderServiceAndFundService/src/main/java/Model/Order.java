@@ -31,29 +31,63 @@ public class Order {
 	
 	public String insertOrder(String buyerID, String productID, int qty) {
 		String output = "";
-		try {
-			Connection con = connect();
-			if (con == null) {
-				return "Error while connecting to the database for inserting.";
-			}
-			// create a prepared statement
-			String query = " insert into orders(`buyerID`,`productID`,`qty`)"+ "values (?, ?, ?)";
-			PreparedStatement preparedStmt = con.prepareStatement(query);
-			// binding values
+		int quantity_product = 0;
+		boolean validate = false;
+		
+	
 			
-			preparedStmt.setString(1, buyerID);
-			preparedStmt.setString(2, productID);
-			preparedStmt.setInt(3, qty);			
-			// execute the statement
-			preparedStmt.execute();
-			con.close();
-			output = "Inserted successfully";
-		} catch (Exception e) {
-			output = "Error while inserting the Orders.";
-			System.err.println(e.getMessage());
-		}
+			try {
+				Connection con = connect();
+				if (con == null) {
+					return "Error while connecting to the database for inserting.";
+				}
+				
+				String query2 = " select qty from product where pID = ?";
+				PreparedStatement preparedStmt2 = con.prepareStatement(query2);
+				preparedStmt2.setString(1, productID);
+				ResultSet rs = preparedStmt2.executeQuery();
+				
+				while(rs.next()) {
+					 quantity_product = rs.getInt("qty");
+					
+				}
+				
+				
+				if(qty > quantity_product) {
+					validate = false;
+					output = "product has only " + quantity_product + " quantity available" ;
+				}
+				else {
+					validate = true;
+				}
+				
+				
+				if(validate) {
+				// create a prepared statement
+				String query = " insert into orders(`buyerID`,`productID`,`qty`)"+ "values (?, ?, ?)";
+				PreparedStatement preparedStmt = con.prepareStatement(query);
+				// binding values
+				
+				preparedStmt.setString(1, buyerID);
+				preparedStmt.setString(2, productID);
+				preparedStmt.setInt(3, qty);			
+				// execute the statement
+				preparedStmt.execute();
+				con.close();
+				output = "Inserted successfully";
+				}
+			} catch (Exception e) {
+				output = "Error while inserting the Orders.";
+				System.err.println(e.getMessage());
+			}
+			
+		
 		return output;
-	}
+		}
+			
+		
+		
+		
 	
 	
 	public String readOrders() {
@@ -201,6 +235,9 @@ public class Order {
 		}
 		return output;
 	}
+	
+	
+
 
 }
 
