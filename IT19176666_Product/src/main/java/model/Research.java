@@ -1,12 +1,15 @@
-package model;
+package Model;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public classs Research {
+import javax.xml.crypto.Data;
+
+public class Research {
 	// model class definition
 	
 	// db method definition
@@ -17,14 +20,14 @@ public classs Research {
 			Class.forName("com.mysql.jdbc.Driver");
 
 			// Provide the correct details: DBServer/DBName, username, password
-			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gadjetbadjetSys", "root", "300495Ps@");
+			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/gadgetbadgetsys", "root", "300495Ps@");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return con;
 	}
 	
-	public String insertResearch(String rID, String field, String subject, float fundTotal, date publishedDate, String cmpl_stats) {
+	public String insertResearch(String rID, String field, String subject, float fundTotal, String cmpl_stats) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -32,7 +35,7 @@ public classs Research {
 				return "Error while connecting to the database for inserting.";
 			}
 			// create a prepared statement
-			String query = " insert into research(`rID`,`field`,`subject`, `fundTotal`, `publishedDate`, `cmpl_stats`)"+ "values (?, ?, ?, ?, ?, ?)";
+			String query = " insert into research(`rID`,`field`,`subject`, `fundTotal`, `cmpl_stats`)"+ "values (?, ?, ?, ?, ?)";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
 			
@@ -40,8 +43,7 @@ public classs Research {
 			preparedStmt.setString(2, field);
 			preparedStmt.setString(3, subject);
 			preparedStmt.setFloat(4, fundTotal);
-			preparedStmt.setDate(2, publishedDate);
-			preparedStmt.setString(3, cmpl_stats);
+			preparedStmt.setString(5, cmpl_stats);
 			
 			// execute the statement
 			preparedStmt.execute();
@@ -71,12 +73,12 @@ public classs Research {
 
 			// iterate through the rows in the result set
 			while (rs.next()) {
-				String rID = rs.toString("rID");
-				String field = rs.toString("field");
-				String subject = rs.toString("subject");
+				String rID = rs.getString("rID");
+				String field = rs.getString("field");
+				String subject = rs.getString("subject");
 				String fundTotal = Float.toString(rs.getFloat("fundTotal"));
-				String publishedDate = rs.toString("publishedDate");
-				String cmpl_stats = rs.toString("cmpl_stats");
+				String publishedDate = rs.getString("publishedDate");
+				String cmpl_stats = rs.getString("cmpl_stats");
 				
 
 				// Add into the html table
@@ -104,6 +106,7 @@ public classs Research {
 		}
 		return output;
 	}
+
 	
 	
 	

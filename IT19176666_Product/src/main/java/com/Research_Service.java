@@ -1,5 +1,4 @@
 package com;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -18,36 +17,35 @@ import org.jsoup.parser.Parser;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import Model.Product;
 import Model.Research;
+import Model.Product;
 
-@Path("/Product")
-public class Product_Service {
-	
-	Product objProduct = new Product();
+@Path("/Research")
+public class Research_Service {
+	 
+	Research objResearch = new Research();
 	
 	@POST
-	@Path("/ps")
+	@Path("/rs")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String insertResearch(@FormParam("productID") String productID,
-	 @FormParam("productName") String productName, 
-	 @FormParam("category") String category,
-	 @FormParam("description") String description,
-	 @FormParam("unitPrice") Float unitPrice,
-	@FormParam("rID") String rID ) 
+	public String insertResearch(@FormParam("rID") String rID,
+	 @FormParam("field") String field, 
+	 @FormParam("subject") String subject,
+	 @FormParam("fundTotal") Float fundTotal,
+	 @FormParam("cmpl_stats") String cmpl_stats)
 	{
-	 String output = objProduct.insertProduct(productID, productName, category, description,unitPrice, rID);
+	 String output = objResearch.insertResearch(rID, field, subject, fundTotal,cmpl_stats);
 	return output;
 	}
 	
-
+	
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
 	public String readOrders()
 	 {
-		return objProduct.readProduct(); 
+		return objResearch.readResearch(); 
 	 } 
 	
 	@PUT
@@ -66,5 +64,8 @@ public class Product_Service {
 	return output;
 	}
 	
+	
+	
+	
+	
 }
-

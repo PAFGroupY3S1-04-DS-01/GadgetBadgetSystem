@@ -52,9 +52,8 @@ public class User {
 					return "Error while connecting to the database for reading.";
 				}
 				// Prepare the html table to be displayed
-				output = "<table border='1'><tr><th>Order ID</th><th>Buyer ID</th>" + "<th>Product ID</th>"
-						+ "<th>Quantity</th>" + "<th>Update</th><th>Remove</th></tr>";
-
+				output =  "<table border='1'><tr><th>User ID</th><th>Name</th>" + "<th>Email</th>"
+						+ "<th>Address</th>" +"<th>Mobile</th>"+"<th>Status</th>"+"<th>User Types</th>"+ "<th>Update</th><th>Remove</th></tr>";
 				String query = "select * from users";
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
@@ -107,8 +106,8 @@ public class User {
 					return "Error while connecting to the database for reading.";
 				}
 				// Prepare the html table to be displayed
-				output = "<table border='1'><tr><th>Order ID</th><th>Buyer ID</th>" + "<th>Product ID</th>"
-						+ "<th>Quantity</th>" + "<th>Update</th><th>Remove</th></tr>";
+				output = "<table border='1'><tr><th>User ID</th><th>Name</th>" + "<th>Email</th>"
+						+ "<th>Address</th>" +"<th>Mobile</th>"+"<th>Status</th>"+ "<th>Update</th><th>Remove</th></tr>";
 
 				String query = "select * from users where UserType =?";
 				PreparedStatement preparedStmt = con.prepareStatement(query);
