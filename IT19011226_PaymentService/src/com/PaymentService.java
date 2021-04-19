@@ -7,6 +7,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -33,6 +34,14 @@ public class PaymentService {
 		 return payobj.readPayments();
 	 }
 	 
+	@GET
+	@Path("/{orderID}")
+	@Produces(MediaType.TEXT_PLAIN)
+	public String getPayByOrderID (@PathParam("orderID") String orderID)
+	 {
+		 
+		return payobj.getPayByOID(orderID);
+	 }
 	
 	@POST
 	@Path("/")
@@ -53,12 +62,27 @@ public class PaymentService {
 	public String updatePayment(String payData)
 	{
 	//Convert the input string to a JSON object
-	 JsonObject itemObject = new JsonParser().parse(payData).getAsJsonObject();
+	 JsonObject paymentObject = new JsonParser().parse(payData).getAsJsonObject();
 	//Read the values from the JSON object
-	 String payID = itemObject.get("payID").getAsString();
-	 String orderID = itemObject.get("orderID").getAsString();
-	 String total = itemObject.get("totalAmount").getAsString();
+	 String payID = paymentObject.get("payID").getAsString();
+	 String orderID = paymentObject.get("orderID").getAsString();
+	 String total = paymentObject.get("totalAmount").getAsString();
 	 String output = payobj.updatePayment(payID, total, orderID);
+	return output;
+	}
+	
+	@PUT
+	@Path("/UpdateStatus")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String SetPayStatus(String payStat)
+	{
+	//Convert the input string to a JSON object
+	 JsonObject paymentObject = new JsonParser().parse(payStat).getAsJsonObject();
+	//Read the values from the JSON object
+	 String payID = paymentObject.get("payID").getAsString();
+	 String status = paymentObject.get("payStatus").getAsString();
+	 String output = payobj.setPayStatus(status, payID);
 	return output;
 	}
 	

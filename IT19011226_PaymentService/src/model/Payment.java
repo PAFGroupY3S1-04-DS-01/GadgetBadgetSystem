@@ -57,7 +57,7 @@ public String readPayments() {
 		}
 		// Prepare the html table to be displayed
 		output = "<table border='1'><tr><th>PaymentID</th><th>OrderID</th>" 
-				+ "<th>Payment Date and Time</th>" + "<th>Total Amount</th></tr>";
+				+ "<th>Payment Date and Time</th>" + "<th>Total Amount</th>" +"<th>Status</th></tr>";
 
 		String query = "select * from payment";
 		Statement stmt = con.createStatement();
@@ -70,6 +70,7 @@ public String readPayments() {
 			Timestamp datets = rs.getTimestamp("payDateTime");
 			String payDate = datets.toString();
 			String amount = Float.toString(rs.getFloat("totalAmount"));
+			String status = rs.getString("payStatus");
 			
 
 
@@ -78,12 +79,10 @@ public String readPayments() {
 			output += "<td>" + orderID + "</td>";
 			output += "<td>" + payDate + "</td>";
 			output += "<td>" + amount + "</td>";
+			output += "<td>" + status + "</td>";
 
-			// buttons
-			/*output += "<td><input name='btnUpdate' type='button' value='Update'class='btn btn-secondary'></td>"
-					+ "<td><form method='post' action='items.jsp'>"
-					+ "<input name='btnRemove' type='submit' value='Remove'class='btn btn-danger'>"
-					+ "<input name='itemID' type='hidden' value='" + payID + "'>" + "</form></td></tr>";*/
+
+
 		}
 		con.close();
 
@@ -96,7 +95,84 @@ public String readPayments() {
 	return output;
 }
 
-public String updatePayment(String pID, String total, String oID) {
+public String getPayByOID(String OID) {
+	String output = "";
+	try {
+		Connection con = connect();
+		if (con == null) {
+			return "Error while connecting to the database for reading.";
+		}
+		// Prepare the html table to be displayed
+		output = "<table border='1'><tr><th>PaymentID</th><th>OrderID</th>" 
+				+ "<th>Payment Date and Time</th>" + "<th>Total Amount</th>" +"<th>Status</th></tr>";
+		
+		
+		String query = "select * from payment where orderID =?";
+		PreparedStatement preparedStmt = con.prepareStatement(query);
+		preparedStmt.setInt(1, Integer.parseInt(OID));
+		ResultSet rs = preparedStmt.executeQuery();
+		
+
+
+		// iterate through the rows in the result set
+		while (rs.next()) {
+			String payID = Integer.toString(rs.getInt("payID"));
+			String orderID = Integer.toString(rs.getInt("orderID"));
+			Timestamp datets = rs.getTimestamp("payDateTime");
+			String payDate = datets.toString();
+			String amount = Float.toString(rs.getFloat("totalAmount"));
+			String status = rs.getString("payStatus");
+
+
+			// Add into the html table
+			output += "<tr><td>" + payID + "</td>";
+			output += "<td>" + orderID + "</td>";
+			output += "<td>" + payDate + "</td>";
+			output += "<td>" + amount + "</td>";
+			output += "<td>" + status + "</td>";
+			
+
+
+		}
+		con.close();
+
+		// Complete the html table
+		output += "</table>";
+	} catch (Exception e) {
+		output = "Error while reading the payment.";
+		System.err.println(e.getMessage());
+	}
+	return output;
+}
+
+public String setPayStatus(String status, String pID) {
+	
+	String output = "";
+	try {
+		Connection con = connect();
+		if (con == null) {
+			return "Error while connecting to the database for updating.";
+		}
+		// create a prepared statement
+		String query = "UPDATE payment SET payStatus=? WHERE payID=?";
+		PreparedStatement preparedStmt = con.prepareStatement(query);
+		// binding values
+		
+		preparedStmt.setString(1, status);
+		preparedStmt.setInt(2, Integer.parseInt(pID));
+		// execute the statement
+		preparedStmt.execute();
+		con.close();
+		output = "Updated successfully";
+	} catch (Exception e) {
+		output = "Error while updating the payment status.";
+		System.err.println(e.getMessage());
+		}
+	return output;
+	
+}
+
+public String updatePayment(String oID, String total, String pID) {
 	String output = "";
 	try {
 		Connection con = connect();
