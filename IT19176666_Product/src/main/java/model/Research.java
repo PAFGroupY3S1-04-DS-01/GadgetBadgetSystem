@@ -107,6 +107,58 @@ public class Research {
 		return output;
 	}
 
+	public String updateResearch(String rID, String field, String subject, Float fundTotal, String cmpl_stats) {
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error while connecting to the database for updating.";
+			}
+			// create a prepared statement
+			String query = "UPDATE product SET rID=?, field=?, subject=?, fundTotal=?, cmpl_stats=? WHERE rID=?";
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			// binding values
+			preparedStmt.setString(1, rID);
+			preparedStmt.setString(2, field);
+			preparedStmt.setString(3, subject);
+			preparedStmt.setFloat(4, fundTotal);
+			preparedStmt.setString(5, cmpl_stats);
+			
+
+			// execute the statement
+			preparedStmt.execute();
+			con.close();
+			output = "Updated successfully";
+		} catch (Exception e) {
+			output = "Error while updating the Research details.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+
+	public String deleteResearch(String rID) {
+		String output = "";
+		try {
+			Connection con = connect();
+			if (con == null) {
+				return "Error while connecting to the database for deleting.";
+			}
+			// create a prepared statement
+			String query = "delete from research where rID=?";
+			PreparedStatement preparedStmt = con.prepareStatement(query);
+			// binding values
+			preparedStmt.setString(1, rID);
+			// execute the statement
+			preparedStmt.execute();
+			con.close();
+			output = "Deleted successfully";
+		} catch (Exception e) {
+			output = "Error while deleting the research.";
+			System.err.println(e.getMessage());
+		}
+		return output;
+	}
+
 	
 	
 	

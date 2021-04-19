@@ -54,15 +54,20 @@ public class Product_Service {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String updateFundAmount(String itemData)
+	public String updateProduct(String productData)
 	{
 	//Convert the input string to a JSON object
-	 JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
+	 JsonObject itemObject = new JsonParser().parse(productData).getAsJsonObject();
 	//Read the values from the JSON object
-	 String rID = itemObject.get("rID").getAsString();
-	 double amount = Double.parseDouble(itemObject.get("amount").getAsString());
+	 String productID = itemObject.get("productID").getAsString();
+	 String productName = itemObject.get("productName").getAsString();
+	 String category = itemObject.get("category").getAsString();
+	 String description = itemObject.get("description").getAsString();
+	 Float unitPrice = (float) Double.parseDouble(itemObject.get("unitPrice").getAsString());
 
-	 String output = ordObj.updateFundAmount(fundID, amount);
+	
+	 
+	 String output = objProduct.updateProduct(productID, productName, category, description, unitPrice);
 	return output;
 	}
 	

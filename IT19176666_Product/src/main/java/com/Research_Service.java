@@ -52,15 +52,21 @@ public class Research_Service {
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String updateFundAmount(String itemData)
+	public String updateResearch(String researchData)
 	{
 	//Convert the input string to a JSON object
-	 JsonObject itemObject = new JsonParser().parse(itemData).getAsJsonObject();
+	 JsonObject itemObject = new JsonParser().parse(researchData).getAsJsonObject();
 	//Read the values from the JSON object
 	 String rID = itemObject.get("rID").getAsString();
-	 double amount = Double.parseDouble(itemObject.get("amount").getAsString());
+	 String field = itemObject.get("field").getAsString();
+	 String subject = itemObject.get("subject").getAsString();
+	 Float fundTotal = (float) Double.parseDouble(itemObject.get("fundTotal").getAsString());
+	 String cmpl_stats = itemObject.get("cmpl_stats").getAsString();
+	 
 
-	 String output = ordObj.updateFundAmount(fundID, amount);
+	
+	 
+	 String output = objResearch.updateResearch(rID, field, subject, fundTotal, cmpl_stats);
 	return output;
 	}
 	

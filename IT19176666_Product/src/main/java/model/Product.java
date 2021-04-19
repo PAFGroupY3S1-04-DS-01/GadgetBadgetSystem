@@ -103,6 +103,61 @@ public class Product {
 			return output;
 		}
 
+		public String updateProduct(String productID, String productName, String category, String description,
+				Float unitPrice) {
+			String output = "";
+			try {
+				Connection con = connect();
+				if (con == null) {
+					return "Error while connecting to the database for updating.";
+				}
+				// create a prepared statement
+				String query = "UPDATE product SET productID=?, productName=?, category=?, description=?, unitPrice=? WHERE productID=?";
+				PreparedStatement preparedStmt = con.prepareStatement(query);
+				// binding values
+				preparedStmt.setString(1, productID);
+				preparedStmt.setString(2, productName);
+				preparedStmt.setString(3, category);
+				preparedStmt.setString(4, description);
+				preparedStmt.setFloat(5, unitPrice);
+				
+
+				// execute the statement
+				preparedStmt.execute();
+				con.close();
+				output = "Updated successfully";
+			} catch (Exception e) {
+				output = "Error while updating the Product details.";
+				System.err.println(e.getMessage());
+			}
+			return output;
+		}
+
+	
+
+		public String deleteProdutc(String productID) {
+			String output = "";
+			try {
+				Connection con = connect();
+				if (con == null) {
+					return "Error while connecting to the database for deleting.";
+				}
+				// create a prepared statement
+				String query = "delete from product where productID=?";
+				PreparedStatement preparedStmt = con.prepareStatement(query);
+				// binding values
+				preparedStmt.setString(1, productID);
+				// execute the statement
+				preparedStmt.execute();
+				con.close();
+				output = "Deleted successfully";
+			} catch (Exception e) {
+				output = "Error while deleting the product.";
+				System.err.println(e.getMessage());
+			}
+			return output;
+		}
+		
 	
 		
 }
