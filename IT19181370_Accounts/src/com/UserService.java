@@ -52,11 +52,10 @@ public class UserService {
 	 @FormParam("Password") String Password,
 	 @FormParam("Address") String Address,
 	 @FormParam("Mobile") int Mobile,
-	 @FormParam("Status") String Status,
 	 @FormParam("UserType") String UserType)
 
 	{
-	 String output = userObj.insertUser(UserID,Name,Email,Password,Address,Mobile,Status,UserType);
+	 String output = userObj.insertUser(UserID,Name,Email,Password,Address,Mobile,UserType);
 	return output;
 	}
 	
@@ -95,5 +94,29 @@ public class UserService {
 	return output;
 	}
 	
+	@POST
+	@Path("/logging_in")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String loginUser(@FormParam("Email") String  Email,  @FormParam("Password") String Password)
+	 {
+				String Output = userObj.loginUser(Email,Password); 
+				return Output;
+	 }
+	
+	@PUT
+	@Path("/Approve")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String approveResearch(String rID)
+	{
+	//Convert the input string to a JSON object
+	 JsonObject userObject = new JsonParser().parse(rID).getAsJsonObject();
+	//Read the values from the JSON object
+	 String rID1 = userObject.get("rID").getAsString();
 
+	 String rd2="r0003";
+	String output = userObj.approveResearch(rd2);
+	return output;
+	}
 }
