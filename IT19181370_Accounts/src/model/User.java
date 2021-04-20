@@ -15,14 +15,23 @@ public class User {
 				e.printStackTrace();} 
 			return con; } 
 
+		Connection connnect() { 
+			Connection conn = null; 
+			try{   Class.forName("com.mysql.jdbc.Driver"); 
+			//Provide the correct details: DBServer/DBName, username, password 
+			conn = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/research", "root", "jinimaya97");
+			} catch (Exception e) {
+				e.printStackTrace();} 
+			return conn; } 
+
 		//insert
-		public String insertUser(String UserID,String Name, String Email,String Password, String Address, int Mobile, String Status, String UserType) {
+		public String insertUser(String UserID,String Name, String Email,String Password, String Address, int Mobile, String UserType) {
 			String output = ""; 
 			try{ Connection con = connect();
 				if (con == null) 
 					{return"Error while connecting to the database for inserting."; }
 				// create a prepared statement
-				String query = " insert into  users(`UserID`,`Name`,`Email`,`Password`,`Address`,`Mobile`,`Status`,`UserType`)"+" values (?, ?, ?, ?, ?, ?, ?, ?);";
+				String query = " insert into  users(`UserID`,`Name`,`Email`,`Password`,`Address`,`Mobile`,`UserType`)"+" values (?, ?, ?, ?, ?, ?, ?);";
 				PreparedStatement preparedStmt = con.prepareStatement(query);
 				// binding values
 				preparedStmt.setString(1, UserID);
@@ -31,8 +40,7 @@ public class User {
 				preparedStmt.setString(4, Password);
 				preparedStmt.setString(5, Address);
 				preparedStmt.setInt(6, Mobile);
-				preparedStmt.setString(7, Status);
-				preparedStmt.setString(8, UserType);
+				preparedStmt.setString(7, UserType);
 
 				// execute the statement
 				preparedStmt.execute(); 
@@ -53,7 +61,7 @@ public class User {
 				}
 				// Prepare the html table to be displayed
 				output =  "<table border='1'><tr><th>User ID</th><th>Name</th>" + "<th>Email</th>"
-						+ "<th>Address</th>" +"<th>Mobile</th>"+"<th>Status</th>"+"<th>User Types</th>"+ "<th>Update</th><th>Remove</th></tr>";
+						+ "<th>Address</th>" +"<th>Mobile</th>"+"<th>User Types</th>"+ "<th>Update</th><th>Remove</th></tr>";
 				String query = "select * from users";
 				Statement stmt = con.createStatement();
 				ResultSet rs = stmt.executeQuery(query);
@@ -66,7 +74,6 @@ public class User {
 					//String Password = rs.getString("Password");
 					String Address  = rs.getString("Address");
 					String Mobile = Integer.toString(rs.getInt("Mobile"));
-					String Status = rs.getString("Status");
 					String UserType = rs.getString("UserType");
 					
 
@@ -77,7 +84,6 @@ public class User {
 					//output += "<td>" + Password + "</td>";
 					output += "<td>" + Address + "</td>";
 					output += "<td>" + Mobile + "</td>";
-					output += "<td>" + Status + "</td>";
 					output += "<td>" + UserType + "</td>";
 
 					// buttons
@@ -107,7 +113,7 @@ public class User {
 				}
 				// Prepare the html table to be displayed
 				output = "<table border='1'><tr><th>User ID</th><th>Name</th>" + "<th>Email</th>"
-						+ "<th>Address</th>" +"<th>Mobile</th>"+"<th>Status</th>"+ "<th>Update</th><th>Remove</th></tr>";
+						+ "<th>Address</th>" +"<th>Mobile</th>"+ "<th>Update</th><th>Remove</th></tr>";
 
 				String query = "select * from users where UserType =?";
 				PreparedStatement preparedStmt = con.prepareStatement(query);
@@ -122,7 +128,7 @@ public class User {
 					//String Password = rs.getString("Password");
 					String Address  = rs.getString("Address");
 					String Mobile = Integer.toString(rs.getInt("Mobile"));
-					String Status = rs.getString("Status");
+					
 					
 					
 
@@ -133,7 +139,7 @@ public class User {
 					//output += "<td>" + Password + "</td>";
 					output += "<td>" + Address + "</td>";
 					output += "<td>" + Mobile + "</td>";
-					output += "<td>" + Status + "</td>";
+				
 					
 
 					// buttons
@@ -206,5 +212,69 @@ public class User {
 			}
 			return output;
 		}
+		
+		//login
+		public String loginUser(String email, String password) {
+			
+			 Statement statement = null;
+	         ResultSet resultSet = null;
+			
+			String uname = "";
+			String pwd = "";
+			
+			try {
+				Connection con = connect();
+				if (con == null) {
+					return "Error while connecting to the database for deleting.";
+				}
+				statement = con.createStatement(); 
+				resultSet = statement.executeQuery("select Email,Password from users");
+				
+				 while(resultSet.next()) 
+				 {	 
+	              uname = resultSet.getString("Email"); 
+	              pwd = resultSet.getString("Password");
+	 
+	               if(email.equals(uname) && password.equals(pwd))
+	               {
+	                  return "SUCCESS"; 
+	               }
+	             }
+				 
+			}catch(SQLException e)
+	             {
+	                e.printStackTrace();
+	             }
+	             return "Invalid user credentials"; 
+		}
+			
+		//ApproveStatus
+		public String approveResearch(String rID) {
+			String output = "";
+			try {
+				Connection conn = connnect();
+				if (conn == null) {
+					return "Error while connecting to the database when approving.";
+				
+				}
+				// create a prepared statement
+				String query = "update research set approval = 'Approved' where rID = ?;";
+				PreparedStatement preparedStmt = conn.prepareStatement(query);
+				
+				
+				preparedStmt.setString(1, rID);
+				preparedStmt.execute();
+				conn.close();
+				output = "Updated successfully";
+				
+				} catch (Exception e) {
+					e.printStackTrace();
+					output = "Error while updating approval.";	} 
+				return output; 
+
+			
+		}
+			
+		
 
 }
