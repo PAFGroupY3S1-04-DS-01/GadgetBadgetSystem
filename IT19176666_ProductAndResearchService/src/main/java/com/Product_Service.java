@@ -34,7 +34,7 @@ public class Product_Service {
 	 @FormParam("productName") String productName, 
 	 @FormParam("category") String category,
 	 @FormParam("description") String description,
-	 @FormParam("unitPrice") Float unitPrice,
+	@FormParam("unitPrice") Float unitPrice,
 	@FormParam("rID") String rID ) 
 	{
 	 String output = objProduct.insertProduct(productID, productName, category, description,unitPrice, rID);
@@ -63,13 +63,29 @@ public class Product_Service {
 	 String productName = itemObject.get("productName").getAsString();
 	 String category = itemObject.get("category").getAsString();
 	 String description = itemObject.get("description").getAsString();
-	 Float unitPrice = (float) Double.parseDouble(itemObject.get("unitPrice").getAsString());
+	 String rID = itemObject.get("rID").getAsString();
+	 float unitPrice = Float.parseFloat(itemObject.get("unitPrice").getAsString());
 
 	
 	 
-	 String output = objProduct.updateProduct(productID, productName, category, description, unitPrice);
+	 String output = objProduct.updateProduct(productID, productName, category, description, unitPrice, rID);
 	return output;
 	}
 	
+	
+	@DELETE
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String deleteProduct(String productData)
+	{
+	//Convert the input string to an XML document
+	 Document doc = Jsoup.parse(productData, "", Parser.xmlParser());
+
+	//Read the value from the element <itemID>
+	 String productID = doc.select("productID").text();
+	 String output = objProduct.deleteProduct(productID);
+	return output;
+	}
 }
 

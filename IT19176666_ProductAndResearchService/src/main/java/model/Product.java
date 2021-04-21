@@ -104,7 +104,7 @@ public class Product {
 		}
 
 		public String updateProduct(String productID, String productName, String category, String description,
-				Float unitPrice) {
+				float unitPrice, String rID) {
 			String output = "";
 			try {
 				Connection con = connect();
@@ -112,15 +112,16 @@ public class Product {
 					return "Error while connecting to the database for updating.";
 				}
 				// create a prepared statement
-				String query = "UPDATE product SET productID=?, productName=?, category=?, description=?, unitPrice=? WHERE productID=?";
+				String query = "UPDATE product SET productName=?, category=?, description=?, unitPrice=?, rID=? WHERE productID=?";
 				PreparedStatement preparedStmt = con.prepareStatement(query);
 				// binding values
-				preparedStmt.setString(1, productID);
-				preparedStmt.setString(2, productName);
-				preparedStmt.setString(3, category);
-				preparedStmt.setString(4, description);
-				preparedStmt.setFloat(5, unitPrice);
 				
+				preparedStmt.setString(1, productName);
+				preparedStmt.setString(2, category);
+				preparedStmt.setString(3, description);
+				preparedStmt.setFloat(4, unitPrice);
+				preparedStmt.setString(5, rID);
+				preparedStmt.setString(6, productID);
 
 				// execute the statement
 				preparedStmt.execute();
@@ -158,6 +159,27 @@ public class Product {
 			return output;
 		}
 		
-	
+		public String deleteProduct(String productID) {
+			String output = "";
+			try {
+				Connection con = connect();
+				if (con == null) {
+					return "Error while connecting to the database for deleting.";
+				}
+				// create a prepared statement
+				String query = "delete from product where productID=?";
+				PreparedStatement preparedStmt = con.prepareStatement(query);
+				// binding values
+				preparedStmt.setString(1, (productID));
+				// execute the statement
+				preparedStmt.execute();
+				con.close();
+				output = "Deleted successfully";
+			} catch (Exception e) {
+				output = "Error while deleting the product.";
+				System.err.println(e.getMessage());
+			}
+			return output;
+		}
 		
 }
