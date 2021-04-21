@@ -60,7 +60,7 @@ public class Research_Service {
 	 String rID = itemObject.get("rID").getAsString();
 	 String field = itemObject.get("field").getAsString();
 	 String subject = itemObject.get("subject").getAsString();
-	 Float fundTotal = (float) Double.parseDouble(itemObject.get("fundTotal").getAsString());
+	 float fundTotal = Float.parseFloat(itemObject.get("fundTotal").getAsString());
 	 String cmpl_stats = itemObject.get("cmpl_stats").getAsString();
 	 
 
@@ -70,7 +70,20 @@ public class Research_Service {
 	return output;
 	}
 	
-	
+	@DELETE
+	@Path("/")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String deleteResearch(String researchData)
+	{
+	//Convert the input string to an XML document
+	 Document doc = Jsoup.parse(researchData, "", Parser.xmlParser());
+
+	//Read the value from the element <itemID>
+	 String rID = doc.select("rID").text();
+	 String output = objResearch.deleteResearch(rID);
+	return output;
+	}
 	
 	
 	

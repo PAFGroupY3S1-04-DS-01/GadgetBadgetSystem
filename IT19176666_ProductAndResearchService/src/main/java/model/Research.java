@@ -107,7 +107,7 @@ public class Research {
 		return output;
 	}
 
-	public String updateResearch(String rID, String field, String subject, Float fundTotal, String cmpl_stats) {
+	public String updateResearch(String rID, String field, String subject, float fundTotal, String cmpl_stats) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -115,15 +115,15 @@ public class Research {
 				return "Error while connecting to the database for updating.";
 			}
 			// create a prepared statement
-			String query = "UPDATE product SET rID=?, field=?, subject=?, fundTotal=?, cmpl_stats=? WHERE rID=?";
+			String query = "UPDATE research SET  field=?, subject=?, fundTotal=?, cmpl_stats=? WHERE rID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
-			preparedStmt.setString(1, rID);
-			preparedStmt.setString(2, field);
-			preparedStmt.setString(3, subject);
-			preparedStmt.setFloat(4, fundTotal);
-			preparedStmt.setString(5, cmpl_stats);
 			
+			preparedStmt.setString(1, field);
+			preparedStmt.setString(2, subject);
+			preparedStmt.setFloat(3, fundTotal);
+			preparedStmt.setString(4, cmpl_stats);
+			preparedStmt.setString(5, rID);
 
 			// execute the statement
 			preparedStmt.execute();
@@ -159,7 +159,6 @@ public class Research {
 		return output;
 	}
 
-	
-	
+
 	
 }
