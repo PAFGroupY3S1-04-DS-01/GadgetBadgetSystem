@@ -32,6 +32,7 @@ public class Order {
 	public String insertOrder(String buyerID, String productID, int qty) {
 		String output = "";
 		int quantity_product = 0;
+		float unit_price = 0;
 		boolean validate = false;
 		
 	
@@ -42,14 +43,14 @@ public class Order {
 					return "Error while connecting to the database for inserting.";
 				}
 				
-				String query2 = " select qty from product where pID = ?";
+				String query2 = " select qty,unitPrice from product where productID = ?";
 				PreparedStatement preparedStmt2 = con.prepareStatement(query2);
 				preparedStmt2.setString(1, productID);
 				ResultSet rs = preparedStmt2.executeQuery();
 				
 				while(rs.next()) {
 					 quantity_product = rs.getInt("qty");
-					
+					 unit_price = rs.getFloat("unitPrice");
 				}
 				
 				
@@ -64,13 +65,16 @@ public class Order {
 				
 				if(validate) {
 				// create a prepared statement
-				String query = " insert into orders(`buyerID`,`productID`,`qty`)"+ "values (?, ?, ?)";
+				String query = " insert into orders(`buyerID`,`productID`,`qty`,`orderTotal`)"+ "values (?, ?, ?,?)";
 				PreparedStatement preparedStmt = con.prepareStatement(query);
 				// binding values
 				
+				float order_total = qty * unit_price;
+				
 				preparedStmt.setString(1, buyerID);
 				preparedStmt.setString(2, productID);
-				preparedStmt.setInt(3, qty);			
+				preparedStmt.setInt(3, qty);
+				preparedStmt.setFloat(4, order_total);	
 				// execute the statement
 				preparedStmt.execute();
 				con.close();
@@ -99,7 +103,7 @@ public class Order {
 			}
 			// Prepare the html table to be displayed
 			output = "<table border='1'><tr><th>Order ID</th><th>Buyer ID</th>" + "<th>Product ID</th>"
-					+ "<th>Quantity</th>" +"<th>Order Date</th>"+ "<th>Update</th><th>Remove</th></tr>";
+					+ "<th>Quantity</th>" +"<th>Order Date</th>"+"<th>Order total</th>"+ "<th>Update</th><th>Remove</th></tr>";
 
 			String query = "select * from orders";
 			Statement stmt = con.createStatement();
@@ -110,8 +114,9 @@ public class Order {
 				String orderID = Integer.toString(rs.getInt("orderID"));
 				String buyerID = rs.getString("buyerID");
 				String productID = rs.getString("productID");
-				String qty = Double.toString(rs.getDouble("qty"));
+				int qty = rs.getInt("qty");
 				String orderDate = rs.getString("orderDate");
+				String orderTotal = rs.getString("orderTotal");
 				
 
 				// Add into the html table
@@ -120,6 +125,7 @@ public class Order {
 				output += "<td>" + productID + "</td>";
 				output += "<td>" + qty + "</td>";
 				output += "<td>" + orderDate + "</td>";
+				output += "<td>" + orderTotal + "</td>";
 
 				// buttons
 				output += "<td><input name='btnUpdate' type='button' value='Update'class='btn btn-secondary'></td>"
