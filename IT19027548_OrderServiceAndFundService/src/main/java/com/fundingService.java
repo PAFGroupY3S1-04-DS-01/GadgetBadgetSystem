@@ -51,10 +51,16 @@ public class fundingService {
 	@Produces(MediaType.TEXT_PLAIN)
 	public String insertFunds(@FormParam("researchID") String researchID,
 	 @FormParam("description") String description,
-	 @FormParam("amount") double amount,@FormParam("funder") String funder)
+	 @FormParam("amount") String amount,@FormParam("funder") String funder)
 	{
-	 String output = ordObj.insertFunds(researchID, description, amount,funder);
-	return output;
+	try {
+		
+		String output = ordObj.insertFunds(researchID, description,Double.parseDouble(amount),funder);
+		return output;
+	}catch(NumberFormatException e){
+		return "Enter Valid amount";
+	}
+	
 	}
 	
 	@PUT
