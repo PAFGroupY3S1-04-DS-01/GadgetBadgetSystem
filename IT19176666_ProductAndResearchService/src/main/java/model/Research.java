@@ -1,3 +1,8 @@
+//IT19176666
+//Aththanayake A.B.P.S
+
+
+
 package Model;
 
 import java.sql.Connection;
@@ -27,6 +32,7 @@ public class Research {
 		return con;
 	}
 	
+	//insert research
 	public String insertResearch(String rID, String field, String subject, float fundTotal, String cmpl_stats) {
 		String output = "";
 		try {
@@ -37,6 +43,8 @@ public class Research {
 			// create a prepared statement
 			String query = " insert into research(`rID`,`field`,`subject`, `fundTotal`, `cmpl_stats`)"+ "values (?, ?, ?, ?, ?)";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
+			
+			
 			// binding values
 			
 			preparedStmt.setString(1, rID);
@@ -45,17 +53,22 @@ public class Research {
 			preparedStmt.setFloat(4, fundTotal);
 			preparedStmt.setString(5, cmpl_stats);
 			
-			// execute the statement
+			// execute 
 			preparedStmt.execute();
 			con.close();
+			
+			//inserted successfully
 			output = "Inserted successfully";
 		} catch (Exception e) {
-			output = "Error while inserting the item.";
+			
+			//error
+			output = "Error while inserting the research.";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
 	
+	//read research
 	public String readResearch() {
 		String output = "";
 		try {
@@ -63,6 +76,7 @@ public class Research {
 			if (con == null) {
 				return "Error while connecting to the database for reading.";
 			}
+			
 			// Prepare the html table to be displayed
 			output = "<table border='1'><tr><th>Research ID</th>" + "<th>Field</th>" 
 					+ "<th>Subject</th>" + "<th>Fund Total</th>" + "<th>Published Date</th>" + "<th>Complete Status</th></tr>";
@@ -81,7 +95,7 @@ public class Research {
 				String cmpl_stats = rs.getString("cmpl_stats");
 				
 
-				// Add into the html table
+				// Add research details into  the html table
 				output += "<tr><td>" + rID + "</td>";
 				output += "<td>" + field + "</td>";
 				output += "<td>" + subject + "</td>";
@@ -90,23 +104,22 @@ public class Research {
 				output += "<td>" + cmpl_stats + "</td>";
 
 
-				// buttons
-				/*output += "<td><input name='btnUpdate' type='button' value='Update'class='btn btn-secondary'></td>"
-						+ "<td><form method='post' action='items.jsp'>"
-						+ "<input name='btnRemove' type='submit' value='Remove'class='btn btn-danger'>"
-						+ "<input name='itemID' type='hidden' value='" + payID + "'>" + "</form></td></tr>";*/
+				
 			}
 			con.close();
 
 			// Complete the html table
 			output += "</table>";
 		} catch (Exception e) {
+			
+			//error
 			output = "Error while reading the research.";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
 
+	//update research
 	public String updateResearch(String rID, String field, String subject, float fundTotal, String cmpl_stats) {
 		String output = "";
 		try {
@@ -125,17 +138,22 @@ public class Research {
 			preparedStmt.setString(4, cmpl_stats);
 			preparedStmt.setString(5, rID);
 
-			// execute the statement
+			// execute
 			preparedStmt.execute();
 			con.close();
+			
+			//updated successfully
 			output = "Updated successfully";
 		} catch (Exception e) {
+			
+			//error
 			output = "Error while updating the Research details.";
 			System.err.println(e.getMessage());
 		}
 		return output;
 	}
 
+	//delete research
 	public String deleteResearch(String rID) {
 		String output = "";
 		try {
@@ -151,8 +169,12 @@ public class Research {
 			// execute the statement
 			preparedStmt.execute();
 			con.close();
+			
+			//delete successfully message
 			output = "Deleted successfully";
 		} catch (Exception e) {
+			
+			//error
 			output = "Error while deleting the research.";
 			System.err.println(e.getMessage());
 		}

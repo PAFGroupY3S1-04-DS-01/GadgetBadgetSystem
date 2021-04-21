@@ -1,3 +1,7 @@
+//IT19176666
+//Aththanayake A.B.P.S
+
+
 package Model;
 
 import java.sql.Connection;
@@ -23,6 +27,8 @@ public class Product {
 			return con;
 		}
 		
+		
+		//insert product 
 		public String insertProduct(String productID, String productName, String category, String description, Float unitPrice, String rID) {
 			String output = "";
 			try {
@@ -45,14 +51,19 @@ public class Product {
 				// execute the statement
 				preparedStmt.execute();
 				con.close();
+				
+				//inserted successfully
 				output = "Inserted successfully";
 			} catch (Exception e) {
+				
+				//error
 				output = "Error while inserting the Product.";
 				System.err.println(e.getMessage());
 			}
 			return output;
 		}
 		
+		//read product
 		public String readProduct() {
 			String output = "";
 			try {
@@ -77,7 +88,7 @@ public class Product {
 					String unitPrice = Float.toString(rs.getFloat("unitPrice"));
 					String rID = rs.getString("rID");
 
-					// Add into the html table
+					// Add product details into the html table
 					output += "<tr><td>" + productID + "</td>";
 					output += "<td>" + productName + "</td>";
 					output += "<td>" + category + "</td>";
@@ -86,29 +97,29 @@ public class Product {
 					output += "<td>" + rID + "</td>";
 
 
-					// buttons
-					/*output += "<td><input name='btnUpdate' type='button' value='Update'class='btn btn-secondary'></td>"
-							+ "<td><form method='post' action='items.jsp'>"
-							+ "<input name='btnRemove' type='submit' value='Remove'class='btn btn-danger'>"
-							+ "<input name='itemID' type='hidden' value='" + payID + "'>" + "</form></td></tr>";*/
+					
 				}
 				con.close();
 
 				// Complete the html table
 				output += "</table>";
 			} catch (Exception e) {
+				
+				//error
 				output = "Error while reading the product.";
 				System.err.println(e.getMessage());
 			}
 			return output;
 		}
 
+		//update product
 		public String updateProduct(String productID, String productName, String category, String description,
 				float unitPrice, String rID) {
 			String output = "";
 			try {
 				Connection con = connect();
 				if (con == null) {
+					//error
 					return "Error while connecting to the database for updating.";
 				}
 				// create a prepared statement
@@ -126,8 +137,12 @@ public class Product {
 				// execute the statement
 				preparedStmt.execute();
 				con.close();
+				
+				//updated successfully
 				output = "Updated successfully";
 			} catch (Exception e) {
+				
+				//error
 				output = "Error while updating the Product details.";
 				System.err.println(e.getMessage());
 			}
@@ -135,30 +150,8 @@ public class Product {
 		}
 
 	
-
-		public String deleteProdutc(String productID) {
-			String output = "";
-			try {
-				Connection con = connect();
-				if (con == null) {
-					return "Error while connecting to the database for deleting.";
-				}
-				// create a prepared statement
-				String query = "delete from product where productID=?";
-				PreparedStatement preparedStmt = con.prepareStatement(query);
-				// binding values
-				preparedStmt.setString(1, productID);
-				// execute the statement
-				preparedStmt.execute();
-				con.close();
-				output = "Deleted successfully";
-			} catch (Exception e) {
-				output = "Error while deleting the product.";
-				System.err.println(e.getMessage());
-			}
-			return output;
-		}
-		
+		//delete product
+	
 		public String deleteProduct(String productID) {
 			String output = "";
 			try {
@@ -174,8 +167,12 @@ public class Product {
 				// execute the statement
 				preparedStmt.execute();
 				con.close();
+				
+				//deleted successfully
 				output = "Deleted successfully";
 			} catch (Exception e) {
+				
+				//error
 				output = "Error while deleting the product.";
 				System.err.println(e.getMessage());
 			}

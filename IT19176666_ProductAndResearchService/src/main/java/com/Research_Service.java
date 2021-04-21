@@ -1,3 +1,7 @@
+//IT19176666
+//Aththanayake A.B.P.S
+
+
 package com;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -23,31 +27,37 @@ import Model.Product;
 @Path("/Research")
 public class Research_Service {
 	 
+	//create object
 	Research objResearch = new Research();
 	
+	
+	//insert research
 	@POST
 	@Path("/rs")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.TEXT_PLAIN)
-	public String insertResearch(@FormParam("rID") String rID,
+	public String insertResearch(
+	 @FormParam("rID") String rID,
 	 @FormParam("field") String field, 
 	 @FormParam("subject") String subject,
 	 @FormParam("fundTotal") Float fundTotal,
 	 @FormParam("cmpl_stats") String cmpl_stats)
 	{
-	 String output = objResearch.insertResearch(rID, field, subject, fundTotal,cmpl_stats);
+	 String output = objResearch.insertResearch(rID, field, subject, fundTotal,"pending");
 	return output;
 	}
 	
-	
+	//view research
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
-	public String readOrders()
+	public String readResearch()
 	 {
 		return objResearch.readResearch(); 
 	 } 
 	
+	
+	//update research
 	@PUT
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -70,6 +80,8 @@ public class Research_Service {
 	return output;
 	}
 	
+	
+	//delete research
 	@DELETE
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_XML)
