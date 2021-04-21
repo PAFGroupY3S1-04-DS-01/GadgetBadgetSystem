@@ -1,3 +1,6 @@
+//IT19176666
+//Aththanayake A.B.P.S
+
 package com;
 
 import javax.ws.rs.Consumes;
@@ -24,8 +27,10 @@ import Model.Research;
 @Path("/Product")
 public class Product_Service {
 	
+	//create object
 	Product objProduct = new Product();
 	
+	//insert Product 
 	@POST
 	@Path("/ps")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -41,15 +46,17 @@ public class Product_Service {
 	return output;
 	}
 	
-
+	//View product
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
-	public String readOrders()
+	public String readProduct()
 	 {
 		return objProduct.readProduct(); 
 	 } 
 	
+	
+	//Update Product
 	@PUT
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -73,6 +80,8 @@ public class Product_Service {
 	}
 	
 	
+	
+	//delete product
 	@DELETE
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_XML)
