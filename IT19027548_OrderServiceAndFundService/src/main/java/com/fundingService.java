@@ -1,4 +1,4 @@
-package com;
+package com; // IT19027548 Maduwantha W.W.A.K.
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -24,8 +24,16 @@ import Model.Order;
 @Path("/Funds")
 public class fundingService {
 	
+	
+/*
+ *  To initialize single object from Fund class
+ */
 
 	Fund ordObj = new Fund();
+	
+/*
+ *  Manage GET request and retrieve all the Funds details 
+ */
 
 	@GET
 	@Path("/")
@@ -35,6 +43,9 @@ public class fundingService {
 		return ordObj.readFunds(); 
 	 } 
 	
+/*
+ *  Manage GET request and retrieve all the Funds details according the  funderID ID
+ */
 	
 	@GET
 	@Path("/{funder}")
@@ -44,6 +55,10 @@ public class fundingService {
 		return ordObj.readFundsFunder(funder); 
 	 }
 	
+	
+/*
+ *  Manage POST request and insert new Fund
+ */
 	
 	@POST
 	@Path("/")
@@ -63,6 +78,10 @@ public class fundingService {
 	
 	}
 	
+/*
+ *  Manage PUT request from the client and update the record
+ */
+	
 	@PUT
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -78,6 +97,10 @@ public class fundingService {
 	 String output = ordObj.updateFundAmount(fundID, amount);
 	return output;
 	}
+	
+/*
+ *  Manage DELETE request from the client and delete the record
+ */
 	
 	@DELETE
 	@Path("/")

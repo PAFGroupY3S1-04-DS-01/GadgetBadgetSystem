@@ -1,4 +1,4 @@
-package Model;
+package Model; // IT19027548 Maduwantha W.W.A.K.
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -28,6 +28,10 @@ public class Order {
 		}
 		return con;
 	}
+	
+/*
+ *  data insert method of Orders
+ */
 	
 	public String insertOrder(String buyerID, String productID, int qty) {
 		String output = "";
@@ -90,7 +94,9 @@ public class Order {
 		}
 			
 		
-		
+/*
+ *  Data retrieve method of all the orders	
+ */
 		
 	
 	
@@ -144,6 +150,10 @@ public class Order {
 		return output;
 	}
 	
+/*
+ *  Data retrieve method of all the orders of specific buyer
+ */
+	
 	public String readOrdersbuyer(String ID) {
 		String output = "";
 		try {
@@ -193,6 +203,9 @@ public class Order {
 		return output;
 	}
 	
+	
+//  Data update method of specific order 
+	
 	public String updateOrderQuantity(String ID, int qty) {
 		String output = "";
 		try {
@@ -217,6 +230,9 @@ public class Order {
 		}
 		return output;
 	}
+	
+	
+//  Data delete method of delete specific record
 	
 	
 	public String deleteOrders(String ID) {
