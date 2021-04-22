@@ -1,4 +1,4 @@
-package Model;
+package Model; // IT19027548 Maduwantha W.W.A.K.
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,6 +7,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 public class Fund {
+	
+	
+/*
+ *  DB Connection method
+ */
 	
 	private Connection connect() {
 		Connection con = null;
@@ -21,6 +26,10 @@ public class Fund {
 		return con;
 	}
 	
+/*
+ *  Data insert method to db
+ */
+	
 	public String insertFunds(String researchID, String description, double amount, String funder) {
 		String output = "";
 		try {
@@ -31,8 +40,8 @@ public class Fund {
 			// create a prepared statement
 			String query = " insert into funds(`researchID`,`description`,`amount`,`funder`)"+ "values (?, ?, ?, ?)";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
-			// binding values
 			
+			// binding values to PreparedStatement (dynamic binding)
 			preparedStmt.setString(1, researchID);
 			preparedStmt.setString(2, description);
 			preparedStmt.setDouble(3, amount);
@@ -49,6 +58,11 @@ public class Fund {
 	}
 	
 	
+/*
+ *  Data retrieve method of all the funds
+ */
+	
+	
 	public String readFunds() {
 		String output = "";
 		try {
@@ -56,7 +70,7 @@ public class Fund {
 			if (con == null) {
 				return "Error while connecting to the database for reading.";
 			}
-			// Prepare the html table to be displayed
+			// Prepare the html table to display all the funds
 			output = "<table border='1'><tr><th>Fund ID</th><th>Research ID</th>" + "<th>Description</th>"
 					+ "<th>Amount</th>" +"<th>Funder</th>" + "<th>Update</th><th>Remove</th></tr>";
 
@@ -64,7 +78,7 @@ public class Fund {
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(query);
 
-			// iterate through the rows in the result set
+			// iterate through the rows in the result set(iterator)
 			while (rs.next()) {
 				String fundID = Integer.toString(rs.getInt("fundID"));
 				String researchID = rs.getString("researchID");
@@ -82,7 +96,7 @@ public class Fund {
 				output += "<td>" + funder + "</td>";
 
 
-				// buttons
+				
 				output += "<td><input name='btnUpdate' type='button' value='Update'class='btn btn-secondary'></td>"
 						+ "<td><form method='post' action='items.jsp'>"
 						+ "<input name='btnRemove' type='submit' value='Remove'class='btn btn-danger'>"
@@ -90,7 +104,7 @@ public class Fund {
 			}
 			con.close();
 
-			// Complete the html table
+			
 			output += "</table>";
 		} catch (Exception e) {
 			output = "Error while reading the funds.";
@@ -99,6 +113,10 @@ public class Fund {
 		return output;
 	}
 	
+/*
+ *  Data retrieve method of all specific funder
+ */
+	
 	public String readFundsFunder(String ID) {
 		String output = "";
 		try {
@@ -106,7 +124,7 @@ public class Fund {
 			if (con == null) {
 				return "Error while connecting to the database for reading.";
 			}
-			// Prepare the html table to be displayed
+			
 			output = "<table border='1'><tr><th>Fund ID</th><th>Research ID</th>" + "<th>Description</th>"
 					+ "<th>Amount</th>" +"<th>Funder</th>" + "<th>Update</th><th>Remove</th></tr>";
 			
@@ -148,6 +166,10 @@ public class Fund {
 		return output;
 	}
 	
+/*
+ *  order Update method
+ */
+	
 	public String updateFundAmount(String fundID, double amount) {
 		String output = "";
 		try {
@@ -172,6 +194,11 @@ public class Fund {
 		}
 		return output;
 	}
+	
+	
+/*
+ *  Order delete method
+ */
 	
 	
 	public String deleteFund(String ID) {

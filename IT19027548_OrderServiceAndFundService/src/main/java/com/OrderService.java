@@ -1,4 +1,4 @@
-package com;
+package com; // IT19027548 Maduwantha W.W.A.K.
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -24,9 +24,14 @@ import Model.Order;
 public class OrderService {
 	
 
-
+/*
+ *  To initialize single object from Order class
+ */
 	Order ordObj = new Order();
 
+/*
+ *  Manage GET request and retrieve all the order details 
+ */
 	@GET
 	@Path("/")
 	@Produces(MediaType.TEXT_HTML)
@@ -36,6 +41,11 @@ public class OrderService {
 	 } 
 	
 	
+/*
+ *  Manage GET request and retrieve all the order details according the  buyer ID
+ */
+	
+	
 	@GET
 	@Path("/{buyerID}")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -43,6 +53,10 @@ public class OrderService {
 	 {
 		return ordObj.readOrdersbuyer(buyerID); 
 	 }
+	
+/*
+ *  Manage POST request and insert new Order
+ */
 	
 	
 	@POST
@@ -56,6 +70,10 @@ public class OrderService {
 	 String output = ordObj.insertOrder(buyerID, productID, qty);
 	return output;
 	}
+	
+/*
+ *  Manage PUT request from the client and update the record
+ */
 	
 	@PUT
 	@Path("/")
@@ -72,6 +90,10 @@ public class OrderService {
 	 String output = ordObj.updateOrderQuantity(orderID, qty);
 	return output;
 	}
+	
+/*
+ *  Manage DELETE request from the client and DELETE the record
+ */
 	
 	@DELETE
 	@Path("/")
