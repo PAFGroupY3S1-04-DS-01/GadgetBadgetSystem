@@ -58,7 +58,8 @@ CREATE TABLE `research` (
   `subject` varchar(45) NOT NULL,
   `fundTotal` float NOT NULL,
   `publishedDate` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `cmpl_stats` varchar(45) DEFAULT NULL,
+  `cmpl_stats` varchar(45) NOT NULL,
+  `approval` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`rID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -69,7 +70,7 @@ CREATE TABLE `research` (
 
 LOCK TABLES `research` WRITE;
 /*!40000 ALTER TABLE `research` DISABLE KEYS */;
-INSERT INTO `research` VALUES ('r0001','cdf','abcd',1230,'2021-04-22 00:51:39','completed'),('r0002','covid19','science',444444,'2021-04-22 00:33:18','completed'),('r0003','food','Food Science',25000,'2021-04-22 00:33:18','completed'),('r0004','perfume','cosmatics',4500,'2021-04-22 00:36:40','completed'),('r0005','bottle','plastic',350,'2021-04-22 00:37:56','completed');
+INSERT INTO `research` VALUES ('r0001','cdf','abcd',1230,'2021-04-22 00:51:39','completed',NULL),('r0002','covid19','science',444444,'2021-04-22 00:33:18','completed',NULL),('r0003','food','Food Science',25000,'2021-04-22 00:33:18','completed',NULL),('r0004','perfume','cosmatics',4500,'2021-04-22 00:36:40','completed',NULL),('r0005','bottle','plastic',350,'2021-04-22 00:37:56','completed',NULL);
 /*!40000 ALTER TABLE `research` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -82,4 +83,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-22  1:34:57
+-- Dump completed on 2021-04-23 13:21:25
