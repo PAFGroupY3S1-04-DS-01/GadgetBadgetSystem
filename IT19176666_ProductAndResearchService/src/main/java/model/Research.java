@@ -33,7 +33,7 @@ public class Research {
 	}
 	
 	//insert research
-	public String insertResearch(String rID, String field, String subject, float fundTotal, String cmpl_stats) {
+	public String insertResearch(String rID, String field, String subject, float fundTotal, String cmpl_stats, String approval) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -41,7 +41,7 @@ public class Research {
 				return "Error while connecting to the database for inserting.";
 			}
 			// create a prepared statement
-			String query = " insert into research(`rID`,`field`,`subject`, `fundTotal`, `cmpl_stats`)"+ "values (?, ?, ?, ?, ?)";
+			String query = " insert into research(`rID`,`field`,`subject`, `fundTotal`, `cmpl_stats`, `approval`)"+ "values (?, ?, ?, ?, ?, ?)";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			
 			
@@ -52,6 +52,7 @@ public class Research {
 			preparedStmt.setString(3, subject);
 			preparedStmt.setFloat(4, fundTotal);
 			preparedStmt.setString(5, cmpl_stats);
+			preparedStmt.setString(6, approval);
 			
 			// execute 
 			preparedStmt.execute();
@@ -79,7 +80,7 @@ public class Research {
 			
 			// Prepare the html table to be displayed
 			output = "<table border='1'><tr><th>Research ID</th>" + "<th>Field</th>" 
-					+ "<th>Subject</th>" + "<th>Fund Total</th>" + "<th>Published Date</th>" + "<th>Complete Status</th></tr>";
+					+ "<th>Subject</th>" + "<th>Fund Total</th>" + "<th>Published Date</th>" + "<th>Complete Status</th>" + "<th>Approval</th></tr>";
 
 			String query = "select * from research";
 			Statement stmt = con.createStatement();
@@ -93,7 +94,7 @@ public class Research {
 				String fundTotal = Float.toString(rs.getFloat("fundTotal"));
 				String publishedDate = rs.getString("publishedDate");
 				String cmpl_stats = rs.getString("cmpl_stats");
-				
+				String approval = rs.getString("approval");
 
 				// Add research details into  the html table
 				output += "<tr><td>" + rID + "</td>";
@@ -102,6 +103,7 @@ public class Research {
 				output += "<td>" + fundTotal + "</td>";
 				output += "<td>" + publishedDate + "</td>";
 				output += "<td>" + cmpl_stats + "</td>";
+				output += "<td>" + approval + "</td>";
 
 
 				
@@ -120,7 +122,7 @@ public class Research {
 	}
 
 	//update research
-	public String updateResearch(String rID, String field, String subject, float fundTotal, String cmpl_stats) {
+	public String updateResearch(String rID, String field, String subject, float fundTotal, String cmpl_stats, String approval) {
 		String output = "";
 		try {
 			Connection con = connect();
@@ -128,7 +130,7 @@ public class Research {
 				return "Error while connecting to the database for updating.";
 			}
 			// create a prepared statement
-			String query = "UPDATE research SET  field=?, subject=?, fundTotal=?, cmpl_stats=? WHERE rID=?";
+			String query = "UPDATE research SET  field=?, subject=?, fundTotal=?, cmpl_stats=?, approval=? WHERE rID=?";
 			PreparedStatement preparedStmt = con.prepareStatement(query);
 			// binding values
 			
@@ -136,7 +138,9 @@ public class Research {
 			preparedStmt.setString(2, subject);
 			preparedStmt.setFloat(3, fundTotal);
 			preparedStmt.setString(4, cmpl_stats);
-			preparedStmt.setString(5, rID);
+			preparedStmt.setString(5, approval);
+			preparedStmt.setString(6, rID);
+			
 
 			// execute
 			preparedStmt.execute();

@@ -43,7 +43,7 @@ public class Research_Service {
 	 @FormParam("fundTotal") Float fundTotal,
 	 @FormParam("cmpl_stats") String cmpl_stats)
 	{
-	 String output = objResearch.insertResearch(rID, field, subject, fundTotal,"pending");
+	 String output = objResearch.insertResearch(rID, field, subject, fundTotal, cmpl_stats, "Not Approved");
 	return output;
 	}
 	
@@ -72,11 +72,11 @@ public class Research_Service {
 	 String subject = itemObject.get("subject").getAsString();
 	 float fundTotal = Float.parseFloat(itemObject.get("fundTotal").getAsString());
 	 String cmpl_stats = itemObject.get("cmpl_stats").getAsString();
-	 
+	 String approval = itemObject.get("approval").getAsString();
 
 	
 	 
-	 String output = objResearch.updateResearch(rID, field, subject, fundTotal, cmpl_stats);
+	 String output = objResearch.updateResearch(rID, field, subject, fundTotal, cmpl_stats, approval);
 	return output;
 	}
 	
